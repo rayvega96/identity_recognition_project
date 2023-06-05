@@ -6,8 +6,6 @@ import sys
 
 def yolo_video_recognition(video_path=None, save_path=None, show_preview=True):
 
-    
-
     if video_path is not None:
         camera = cv2.VideoCapture(video_path)
     else:
@@ -53,11 +51,39 @@ def yolo_video_recognition(video_path=None, save_path=None, show_preview=True):
                 if key == ord('q'):
                     break
 
-
-        
     #release the camera and close all windows
     camera.release()
     cv2.destroyAllWindows()
+
+def yolo_face_recognition(face_path):
+
+    image = cv2.imread(face_path)
+
+    # Disabilita i messaggi di log generati da YOLO
+    logging.disable(logging.CRITICAL)
+
+    # Load a pretrained YOLO model (recommended for training)
+    yolo_model = YOLO('YoloFaceDetector/yolov8n-face.pt')
+    yolo_model.verbose = False
+
+
+    results = yolo_model(image)
+    boxes = results[0].boxes
+
+    faces_found = []
+
+    for box in boxes:
+
+        top_left_x = int(box.xyxy.tolist()[0][0])
+        top_left_y = int(box.xyxy.tolist()[0][1])
+        bottom_right_x = int(box.xyxy.tolist()[0][2])
+        bottom_right_y = int(box.xyxy.tolist()[0][3])
+
+        face = image[top_left_y:bottom_right_y, top_left_x:bottom_right_x]
+
+        faces_found.append(face)
+
+    return faces_found
 
 
 if __name__ == '__main__':
