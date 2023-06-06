@@ -108,19 +108,36 @@ def data_augment(file_path, save_path):
             next(augmented_images)
 
 
+def rename_items(files_path, prefix=''):
+
+    if prefix != '':
+        prefix = prefix + '_'
+
+    items_list = get_filespath(files_path)
+    n_files = len(items_list)
+    for i in range(n_files):
+
+        print(f"Renaming {i+1}/{n_files}")
+
+        directory = os.path.dirname(items_list[i][0])
+        if i < 10:
+            new_path_with_name = os.path.join(directory, prefix+'0'+str(i)+'.jpg')
+        else:
+            new_path_with_name = os.path.join(directory, prefix+str(i)+'.jpg')
+
+        os.rename(items_list[i][0], new_path_with_name)
 
 
 
-lista_immagini = get_filespath("../../datasets/unknown_14k/")
-save_path = "augmented_training_set/"
-get_faces(lista_immagini, save_path)
+lista_immagini = get_filespath("../../datasets/dataset_ragazzi/Gabriele/")
+save_path = "training_set/Gabriele_Musso/"
+#get_faces(lista_immagini, save_path)
 
 faces_path = get_filespath(save_path)
-crop_work(faces_path, save_path)
+#crop_work(faces_path, save_path)
 
-cropped_path = get_filespath("augmented_training_set/")
+cropped_path = get_filespath("training_set/Gabriele_Musso/")
 
-print(cropped_path)
+#data_augment(cropped_path, save_path)
 
-data_augment(cropped_path, save_path)
-
+rename_items("training_set/Unknown/", "Unknown")
