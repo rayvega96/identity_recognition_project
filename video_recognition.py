@@ -19,6 +19,22 @@ def yolo_video_recognition(video_path=None, save_path=None, show_preview=True):
     yolo_model = YOLO('YoloFaceDetector/yolov8n-face.pt')
     yolo_model.verbose = False
 
+    # Ottieni il formato del video
+    fourcc = int(camera.get(cv2.CAP_PROP_FOURCC))
+    formato = chr(fourcc & 0xFF) + chr((fourcc >> 8) & 0xFF) + chr((fourcc >> 16) & 0xFF) + chr((fourcc >> 24) & 0xFF)
+
+    # Ottieni i frame per secondo (FPS) del video
+    fps = camera.get(cv2.CAP_PROP_FPS)
+
+    # Ottieni la risoluzione del video
+    width = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    # Stampa le informazioni ottenute
+    print('Formato: ', formato)
+    print(f'FPS: {fps:.2f}')
+    print('Risoluzione: ', width, 'x', height)
+
     counter = 0
 
     while True:
