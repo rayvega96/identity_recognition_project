@@ -59,7 +59,7 @@ def yolo_face_recognition(face_path):
 
     image = cv2.imread(face_path)
 
-    # Disabilita i messaggi di log generati da YOLO
+    # Disable YOLO logging on terminal
     logging.disable(logging.CRITICAL)
 
     # Load a pretrained YOLO model (recommended for training)
@@ -74,14 +74,21 @@ def yolo_face_recognition(face_path):
 
     for box in boxes:
 
-        top_left_x = int(box.xyxy.tolist()[0][0])
-        top_left_y = int(box.xyxy.tolist()[0][1])
-        bottom_right_x = int(box.xyxy.tolist()[0][2])
-        bottom_right_y = int(box.xyxy.tolist()[0][3])
+        # Check if the probability associated to the predicted face is more than 70
+        score = box.conf[0]
+        score = score.numpy()
 
-        face = image[top_left_y:bottom_right_y, top_left_x:bottom_right_x]
+        # If so, save the bounding box as a new image
+        if score > 0.80:
+ 
+            top_left_x = int(box.xyxy.tolist()[0][0])
+            top_left_y = int(box.xyxy.tolist()[0][1])
+            bottom_right_x = int(box.xyxy.tolist()[0][2])
+            bottom_right_y = int(box.xyxy.tolist()[0][3])
 
-        faces_found.append(face)
+            face = image[top_left_y:bottom_right_y, top_left_x:bottom_right_x]
+
+            faces_found.append(face)
 
     return faces_found
 
