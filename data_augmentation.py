@@ -129,15 +129,15 @@ def rename_items(files_path, prefix=''):
 
 
 
-#lista_immagini = get_filespath("../../datasets/dataset_ragazzi/Francesco/")
-#save_path = "training_set/Francesco_Conti/"
-#get_faces(lista_immagini, save_path)
+lista_immagini = get_filespath("../../datasets/dataset_ragazzi/Davide/")
+save_path = "training_set/Davide_Sgroi/"
+get_faces(lista_immagini, save_path)
 
-#faces_path = get_filespath(save_path)
-#crop_work(faces_path, save_path)
+faces_path = get_filespath(save_path)
+crop_work(faces_path, save_path)
 
-#cropped_path = get_filespath("training_set/Francesco_Conti/")
+cropped_path = get_filespath("training_set/Davide_Sgroi/")
 
-#data_augment(cropped_path, save_path)
+data_augment(cropped_path, save_path)
 
-rename_items("../../datasets/dataset_ragazzi/Francesco/", "Francesco")
+rename_items("training_set/Davide_Sgroi/", "Davide")
