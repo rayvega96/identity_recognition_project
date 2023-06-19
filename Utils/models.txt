@@ -1,0 +1,55 @@
+CustomNetV1     2.249.668 parametri
+
+Il dataset è stato costruito come:
+
+train_gen, val_gen = image_dataset_from_directory(
+    directory="Dataset\\Resized\\",
+    label_mode="categorical",
+    color_mode="rgb",
+    image_size=(256, 256),
+    batch_size=256,
+    validation_split=0.4,
+    subset="both",
+    seed=64,
+    shuffle=True,
+    crop_to_aspect_ratio=True
+)
+
+model = Sequential()
+model.add(Conv2D(128, (3, 3), strides=(2, 2), padding='same', activation='relu', input_shape=(256, 256, 3)))
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2), padding='valid'))
+model.add(BatchNormalization())
+model.add(Dropout(0.2))
+model.add(Conv2D(128, (3, 3), strides=(2,2), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2), padding='valid'))
+model.add(BatchNormalization())
+model.add(Dropout(0.2))
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dense(4, activation='softmax'))
+
+Riconosce decentemente tutti e 4
+
+------------------------------------------------------------
+
+CustomNetV3     8,722,308 parametri
+
+
+model = Sequential()
+model.add(Conv2D(64, (7, 7), padding='same', activation='relu', input_shape=(256, 256, 3)))
+model.add(MaxPooling2D(pool_size=(2, 2), padding='valid'))
+model.add(Conv2D(64, (5, 5), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), padding='valid'))
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), padding='valid'))
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dense(4, activation='softmax'))
+
+Nel test set riconosce abbastanza bene, nel video un pò meno
+
+
+
+
+
